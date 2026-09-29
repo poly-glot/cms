@@ -1,0 +1,18 @@
+{
+    frankenphp
+    order php_server before file_server
+    log {
+        output stderr
+        format json
+    }
+}
+
+:8080 {
+    root * /app/webroot
+    encode zstd br gzip
+
+    @health path /health
+    respond @health 200
+
+    php_server
+}

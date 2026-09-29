@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  GCP_PROJECT: firebase-cloud-491613
+  GCP_REGION: europe-west2
+  SERVICE: cms
+  IMAGE_REPO: europe-west2-docker.pkg.dev/firebase-cloud-491613/firebase-cloud/cms
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push image
+        run: |
+          set -euo pipefail
+          IMAGE="${IMAGE_REPO}:${GITHUB_SHA::12}"
+          docker build -t "$IMAGE" -t "${IMAGE_REPO}:latest" .
+          docker push "$IMAGE"
+          docker push "${IMAGE_REPO}:latest"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --project="$GCP_PROJECT" \
+            --region="$GCP_REGION" \
+            --image="$IMAGE" \
+            --quiet

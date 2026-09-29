@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+    AddType text/javascript .mjs
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.mjs$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+</IfModule>

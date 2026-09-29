@@ -1,0 +1,13 @@
+@layer base {
+    body.cms-app {
+        background: var(--linen);
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        font-family: 'Source Sans 3', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+    }
+}

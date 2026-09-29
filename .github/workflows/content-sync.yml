@@ -1,0 +1,203 @@
+name: Content Sync
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality gate (cs-check, phpstan, rector, phpunit)
+    runs-on: ubuntu-24.04
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: cms_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DATABASE_TEST_URL: "mysql://root:root@127.0.0.1:3306/cms_test?encoding=utf8mb4&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false"
+      SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: mbstring, intl, pdo_mysql, gd, fileinfo
+        coverage: none
+
+    - name: Composer install
+      uses: ramsey/composer-install@v3
+
+    - name: Scaffold config/app_local.php (reads DATABASE_TEST_URL from the environment)
+      run: composer run-script post-install-cmd --no-interaction
+
+    - name: Run the quality gate
+      run: composer quality
+
+  content-sync:
+    name: Import schemas & content, then prove the hash-gate is idempotent
+    runs-on: ubuntu-24.04
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: cms
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/cms?encoding=utf8mb4"
+      SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
+      CABINET_SEED_PASSWORD: content-sync-ci
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: mbstring, intl, pdo_mysql
+        coverage: none
+
+    - name: Composer install
+      uses: ramsey/composer-install@v3
+
+    - name: Scaffold config/app_local.php (reads DATABASE_URL from the environment)
+      run: composer run-script post-install-cmd --no-interaction
+
+    - name: Point the CLI at the target database (override DATABASE_URL to sync a real deployment)
+      run: bin/cake migrations migrate --no-lock
+
+    - name: Seed the workspace author the content files reference
+      run: bin/cake seeds run InitialSeed
+
+    - name: Import collection schemas as code
+      run: bin/cake schema_import --workspace=cabinet
+
+    - name: Import content from files and gate CI on the exit status
+      run: bin/cake content_import --workspace=cabinet
+
+    - name: Re-run the import and assert every record is skipped (hash-gate idempotency proof)
+      run: |
+        summary="$(bin/cake content_import --workspace=cabinet | tee /dev/stderr | tail -n1)"
+        echo "$summary" | grep -Eq '^0 created, 0 updated, [1-9][0-9]* skipped, 0 failed\.$'
+
+  frontend:
+    name: Frontend gate (prettier, eslint, stylelint, editor bundle)
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        cache: npm
+        node-version: 22
+
+    - name: Install from the lockfile
+      run: npm ci
+
+    - name: Lint webroot/js and webroot/css
+      run: npm run lint
+
+    - name: Rebuild the editor bundle, re-copy GraphiQL from npm, and assert the committed vendor files match
+      run: |
+        npm run build:editor
+        npm run vendor:graphiql
+        git add --intent-to-add -- webroot/js/admin/vendor
+        git diff --exit-code -- webroot/js/admin/vendor
+
+  e2e:
+    name: E2E (Playwright against the migrated and seeded app)
+    runs-on: ubuntu-24.04
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: cms
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/cms?encoding=utf8mb4"
+      SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: mbstring, intl, pdo_mysql, gd, fileinfo
+        coverage: none
+
+    - name: Composer install
+      uses: ramsey/composer-install@v3
+
+    - name: Scaffold config/app_local.php (reads DATABASE_URL from the environment)
+      run: composer run-script post-install-cmd --no-interaction
+
+    - name: Migrate and seed the users, pages, blocks, menus and comments the specs rely on
+      run: |
+        bin/cake migrations migrate --no-lock
+        bin/cake seeds run InitialSeed
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        cache: npm
+        node-version: 22
+
+    - name: Install from the lockfile
+      run: npm ci
+
+    - name: Install Chromium for Playwright
+      run: npx playwright install --with-deps chromium
+
+    - name: Run the E2E suite (Playwright starts bin/cake server on 8765)
+      run: npm run test:e2e
+
+    - name: Keep failure screenshots and traces
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-test-results
+        path: test-results/
+        retention-days: 7

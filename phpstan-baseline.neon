@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$config of class Cake\\Error\\Middleware\\ErrorHandlerMiddleware constructor expects array\|Cake\\Error\\ExceptionTrap, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Application.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Middleware/HostHeaderMiddleware.php

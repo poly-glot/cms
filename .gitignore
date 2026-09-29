@@ -1,0 +1,67 @@
+# IDE
+.idea/
+.vscode/
+.nova
+.settings/*
+nbproject/*
+
+# Claude Code feedback artifacts
+/feedback/
+
+# Claude (per-machine permissions)
+.claude/settings.local.json
+
+# CakePHP runtime
+/config/app_local.php
+/config/.env
+/config/Migrations/schema-dump-*.lock
+/logs/*
+/tmp/*
+/vendor/*
+
+# PHP / Composer
+.phpstan.cache/
+.php-cs-fixer.cache
+.phpunit.cache
+tests.sqlite
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node toolchain for the TipTap editor bundle and the frontend lint gate
+node_modules/
+yarn-debug.log
+yarn-error.log
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon
+ehthumbs.db
+Thumbs.db
+.directory
+
+# Editor backups
+*~
+*.swp
+*.swo
+*.sublime-*
+*.stTheme.cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+.sass-cache/
+
+# Playwright
+test-results/
+playwright-report/
+.last-run.json
+
+# Runtime media uploads (served via controller, never committed)
+/storage/
+.zvec-grep/
+.codegraph/

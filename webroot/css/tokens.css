@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+:root {
+    --linen: #ece5d8;
+    --linen-shade: #d8cdb8;
+    --linen-edge: #b8ab92;
+    --paper: #fbfaf6;
+    --paper-edge: #d9d3c4;
+    --ink: #2a2520;
+    --ink-soft: #5b5247;
+    --ink-faint: #8e8576;
+    --accent: #4a6fa5;
+    --accent-2: #2f5388;
+    --rule: rgb(120 105 80 / 28%);
+    --rule-soft: rgb(120 105 80 / 16%);
+    --emboss: 0 1px 0 rgb(255 255 255 / 85%);
+    --shadow-card:
+        0 1px 0 rgb(255 255 255 / 70%) inset, 0 -1px 0 rgb(0 0 0 / 4%) inset, 0 1px 2px rgb(40 30 15 / 10%),
+        0 8px 24px rgb(40 30 15 / 10%);
+    --radius-sm: 4px;
+    --radius: 6px;
+    --radius-lg: 10px;
+    --z-savebar: 20;
+    --z-popover: 30;
+    --z-dropdown: 50;
+}
+
+@layer reset, base, layout, components, surfaces;

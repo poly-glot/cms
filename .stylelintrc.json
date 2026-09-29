@@ -1,0 +1,13 @@
+{
+    "extends": ["stylelint-config-standard"],
+    "ignoreFiles": ["webroot/js/admin/vendor/**"],
+    "plugins": ["stylelint-order"],
+    "rules": {
+        "no-descending-specificity": null,
+        "order/properties-alphabetical-order": true,
+        "selector-class-pattern": [
+            "^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)?|is-[a-z]+(?:-[a-z]+)*|ProseMirror(?:-[a-z]+)*|selectedCell)$",
+            { "message": "Class names are BEM kebab-case: block, block__element, block--modifier (see .claude/rules/frontend.md)." }
+        ]
+    }
+}

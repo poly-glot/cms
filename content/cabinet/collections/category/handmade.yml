@@ -1,0 +1,11 @@
+title: Handmade
+slug: handmade
+status: live
+published_at: '2026-02-01 09:00:00'
+comments_enabled: false
+author: admin@cabinet.local
+references: []
+data:
+    headline: Handmade goods
+    blurb: Everything grouped under this category is made by hand in the workshop.
+    featured: true

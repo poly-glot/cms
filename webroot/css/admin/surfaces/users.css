@@ -1,0 +1,91 @@
+@layer surfaces {
+    .cms-roster {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 40px;
+    }
+
+    .cms-member {
+        align-items: center;
+        background: var(--paper);
+        border: 1px solid var(--paper-edge);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+        display: flex;
+        gap: 16px;
+        padding: 14px 18px;
+    }
+
+    .cms-member__avatar {
+        background:
+            radial-gradient(circle at 50% 35%, #f6e2c2 0 35%, transparent 36%),
+            radial-gradient(circle at 50% 100%, #f6e2c2 0 45%, transparent 46%),
+            linear-gradient(180deg, var(--c1, #c8b48a), var(--c2, #7f6233));
+        border-radius: 50%;
+        box-shadow:
+            0 1px 0 rgb(255 255 255 / 50%) inset,
+            0 -1px 0 rgb(0 0 0 / 25%) inset,
+            0 1px 2px rgb(0 0 0 / 20%);
+        flex: none;
+        height: 44px;
+        width: 44px;
+    }
+
+    .cms-member__info {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .cms-member__name {
+        color: var(--ink);
+        font-weight: 700;
+    }
+
+    .cms-member__email {
+        color: var(--ink-soft);
+        font-size: 13px;
+    }
+
+    .cms-member__meta {
+        color: var(--ink-faint);
+        font-size: 12px;
+    }
+
+    .cms-member__role {
+        flex: none;
+        margin: 0;
+    }
+
+    .cms-member__actions {
+        flex: none;
+        margin: 0;
+    }
+
+    .cms-account {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        max-width: 860px;
+        padding: 0 40px;
+    }
+
+    .cms-account__panel {
+        background: var(--paper);
+        border: 1px solid var(--paper-edge);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+        margin: 0;
+        padding: 20px;
+    }
+
+    .cms-account__title {
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 700;
+        margin: 0 0 6px;
+    }
+}

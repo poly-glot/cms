@@ -1,0 +1,13 @@
+title: Contact
+slug: contact
+status: live
+body: '<p>Reach the workshop by post, by phone, or by carrier pigeon.</p>'
+template: default
+visibility: public
+published_at: null
+comments_enabled: false
+position: 0
+parent: null
+author: admin@cabinet.local
+tags: []
+data: []

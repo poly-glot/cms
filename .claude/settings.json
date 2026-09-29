@@ -1,0 +1,43 @@
+{
+  "model": "claude-opus-4-7",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/print-lessons.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/auto-format.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/phpstan-changed.mjs"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/auto-format.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/phpstan-changed.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+includes:
+	- phpstan-baseline.neon
+
+parameters:
+	level: max
+	paths:
+		- src
+		- tests
+	excludePaths:
+		- src/Console/Installer.php
+		- tests/bootstrap.php
+	bootstrapFiles:
+		- tests/bootstrap.php
+	treatPhpDocTypesAsCertain: false

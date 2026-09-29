@@ -1,0 +1,11 @@
+title: 'Welcome to the workshop'
+slug: welcome
+status: live
+excerpt: 'How this journal is written, versioned, and shipped from files.'
+body: '<p>Every post in this journal lives as a file under version control and is imported by CI.</p>'
+published_at: '2026-01-15 09:00:00'
+comments_enabled: false
+author: admin@cabinet.local
+tags:
+    - heritage
+data: []

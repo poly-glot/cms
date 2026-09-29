@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         colors="true"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd">
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <env name="DATABASE_TEST_URL" value="mysql://cms:cms@127.0.0.1/cms_test"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="app">
+            <directory>tests/TestCase/</directory>
+        </testsuite>
+    </testsuites>
+
+    <extensions>
+        <bootstrap class="Cake\TestSuite\Fixture\Extension\PHPUnitExtension"/>
+        <bootstrap class="App\Test\TenantTestExtension"/>
+    </extensions>
+
+    <source>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+        <exclude>
+            <file>src/Console/Installer.php</file>
+        </exclude>
+    </source>
+</phpunit>

@@ -1,0 +1,41 @@
+{
+  "name": "cabinet",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build:editor": "esbuild webroot/js/admin/vendor/tiptap.entry.js --bundle --format=esm --minify --target=es2022 --outfile=webroot/js/admin/vendor/tiptap.bundle.mjs",
+    "format": "prettier --write webroot/js webroot/css",
+    "format:check": "prettier --check webroot/js webroot/css",
+    "lint": "npm run format:check && npm run lint:js && npm run lint:css",
+    "lint:css": "stylelint 'webroot/css/**/*.css'",
+    "lint:fix": "eslint --fix webroot/js && stylelint --fix 'webroot/css/**/*.css' && npm run format",
+    "lint:js": "eslint webroot/js",
+    "test:e2e": "playwright test",
+    "vendor:graphiql": "cp node_modules/graphiql/graphiql.min.js node_modules/graphiql/graphiql.min.css node_modules/graphiql/LICENSE node_modules/react/umd/react.production.min.js node_modules/react-dom/umd/react-dom.production.min.js webroot/js/admin/vendor/graphiql/"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.60.0",
+    "@tiptap/core": "^2.10.0",
+    "@tiptap/extension-link": "^2.27.2",
+    "@tiptap/extension-table": "^2.27.2",
+    "@tiptap/extension-table-cell": "^2.27.2",
+    "@tiptap/extension-table-header": "^2.27.2",
+    "@tiptap/extension-table-row": "^2.27.2",
+    "@tiptap/extension-text-align": "^2.27.2",
+    "@tiptap/starter-kit": "^2.10.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "graphiql": "2.4.7",
+    "prettier": "^3.9.9",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1"
+  }
+}

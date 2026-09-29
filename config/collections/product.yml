@@ -1,0 +1,32 @@
+name: Product
+slug: product
+description: "A sellable product with pricing, imagery, specs, and linked categories."
+fields:
+  - name: price
+    label: Price
+    type: number
+    required: true
+  - name: summary
+    label: Summary
+    type: textarea
+  - name: gallery
+    label: Gallery
+    type: media
+  - name: availability
+    label: Availability
+    type: select
+    options:
+      - {value: in_stock, label: In stock}
+      - {value: preorder, label: Pre-order}
+      - {value: sold_out, label: Sold out}
+  - name: specs
+    label: Specifications
+    type: repeater
+    fields:
+      - {name: key, label: Name, type: text}
+      - {name: value, label: Value, type: text}
+  - name: category
+    label: Categories
+    type: reference
+    target: category
+    cardinality: many

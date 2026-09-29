@@ -1,0 +1,4 @@
+node_modules/
+vendor/
+webroot/js/admin/vendor/graphiql/
+webroot/js/admin/vendor/tiptap.bundle.mjs

@@ -46,7 +46,7 @@ jobs:
         coverage: none
 
     - name: Composer install
-      uses: ramsey/composer-install@v3
+      uses: ramsey/composer-install@v4
 
     - name: Scaffold config/app_local.php (reads DATABASE_TEST_URL from the environment)
       run: composer run-script post-install-cmd --no-interaction
@@ -88,7 +88,7 @@ jobs:
         coverage: none
 
     - name: Composer install
-      uses: ramsey/composer-install@v3
+      uses: ramsey/composer-install@v4
 
     - name: Scaffold config/app_local.php (reads DATABASE_URL from the environment)
       run: composer run-script post-install-cmd --no-interaction
@@ -169,7 +169,7 @@ jobs:
         coverage: none
 
     - name: Composer install
-      uses: ramsey/composer-install@v3
+      uses: ramsey/composer-install@v4
 
     - name: Scaffold config/app_local.php (reads DATABASE_URL from the environment)
       run: composer run-script post-install-cmd --no-interaction

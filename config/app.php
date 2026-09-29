@@ -161,6 +161,10 @@ return [
     ],
 
     'Session' => [
+        'cookie' => '__session',
         'defaults' => env('SESSION_DEFAULTS', 'php'),
+        'ini' => [
+            'session.cookie_secure' => str_starts_with((string) env('APP_FULL_BASE_URL', ''), 'https://'),
+        ],
     ],
 ];

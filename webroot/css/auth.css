@@ -296,64 +296,6 @@ body {
     color: var(--ink-soft);
 }
 
-.auth-check {
-    align-items: center;
-    color: var(--ink-soft);
-    cursor: pointer;
-    display: flex;
-    font-size: 13px;
-    gap: 8px;
-    padding: 4px 0;
-    text-shadow: var(--emboss);
-    user-select: none;
-}
-
-.auth-check__box {
-    background: linear-gradient(180deg, #fff, #ece6d6);
-    border: 1px solid #a89e87;
-    border-radius: 3px;
-    box-shadow:
-        0 1px 0 rgb(255 255 255 / 90%) inset,
-        0 1px 1px rgb(0 0 0 / 5%);
-    color: #fff;
-    display: grid;
-    flex-shrink: 0;
-    font-size: 11px;
-    height: 16px;
-    line-height: 1;
-    place-items: center;
-    width: 16px;
-}
-
-.auth-check__input {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-}
-
-.auth-check__input:checked + .auth-check__box {
-    background: linear-gradient(180deg, #6b8fc4, #3d629c);
-    border-color: var(--accent-2);
-    box-shadow:
-        0 1px 0 rgb(255 255 255 / 40%) inset,
-        0 -1px 0 rgb(0 0 0 / 20%) inset,
-        0 1px 1px rgb(0 0 0 / 10%);
-}
-
-.auth-check__input:checked + .auth-check__box::after {
-    content: '✓';
-    text-shadow: 0 -1px 0 rgb(0 0 0 / 30%);
-}
-
-.auth-options {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: space-between;
-    margin: 6px 0 18px;
-}
-
 .auth-submit {
     background: linear-gradient(180deg, #6b8fc4 0%, #3d629c 100%);
     border: 1px solid #2a4470;

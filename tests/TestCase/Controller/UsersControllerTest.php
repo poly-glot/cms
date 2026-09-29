@@ -65,7 +65,7 @@ final class UsersControllerTest extends TestCase
         $this->assertResponseContains('Email or password is incorrect.');
     }
 
-    public function testRememberMeSetsPersistentCookie(): void
+    public function testLoginSetsNoCookieThatFirebaseHostingWouldStrip(): void
     {
         $this->post('/login', [
             'email' => 'admin@cabinet.local',
@@ -74,18 +74,8 @@ final class UsersControllerTest extends TestCase
         ]);
 
         $this->assertRedirect('/');
-        $this->assertTrue($this->responseCookies()->has('CabinetRemember'));
-    }
-
-    public function testLoginWithoutRememberMeSetsNoPersistentCookie(): void
-    {
-        $this->post('/login', [
-            'email' => 'admin@cabinet.local',
-            'password' => 'secret-pass-1',
-        ]);
-
-        $this->assertRedirect('/');
         $this->assertFalse($this->responseCookies()->has('CabinetRemember'));
+        $this->assertFalse($this->responseCookies()->has('csrfToken'));
     }
 
     public function testPostLogoutRedirectsToLogin(): void

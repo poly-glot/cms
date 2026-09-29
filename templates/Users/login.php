@@ -49,15 +49,6 @@ $this->assign('subheading', 'Sign in to manage your shop.');
         </span>
     </label>
 
-    <div class="auth-options">
-        <label class="auth-check">
-            <input class="auth-check__input" type="checkbox"
-                   name="remember_me" id="remember_me">
-            <span class="auth-check__box" aria-hidden="true"></span>
-            <span>Keep me signed in</span>
-        </label>
-    </div>
-
     <button class="auth-submit" type="submit">Sign in</button>
 </form>
 

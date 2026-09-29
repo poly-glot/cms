@@ -36,7 +36,7 @@ use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Http\Middleware\SessionCsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -65,7 +65,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(new AssetMiddleware(['cacheTime' => Configure::read('Asset.cacheTime')]))
             ->add(new RoutingMiddleware($this))
             ->add(new BodyParserMiddleware())
-            ->add(new CsrfProtectionMiddleware(['httponly' => true])
+            ->add(new SessionCsrfProtectionMiddleware()
                 ->skipCheckCallback(static fn (ServerRequestInterface $request): bool => str_ends_with($request->getUri()->getPath(), '/graphql')))
             ->add(new AuthenticationMiddleware($this))
             ->add(new RateLimitMiddleware())
@@ -100,11 +100,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $service->loadAuthenticator('Authentication.Form', $identifierConfig + [
             'fields' => $fields,
             'loginUrl' => '/login',
-        ]);
-        $service->loadAuthenticator('Authentication.Cookie', $identifierConfig + [
-            'fields' => $fields,
-            'rememberMeField' => 'remember_me',
-            'cookie' => ['name' => 'CabinetRemember', 'expires' => '+30 days'],
         ]);
 
         return $service;

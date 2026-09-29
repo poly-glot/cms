@@ -36,7 +36,7 @@ jobs:
       SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -78,7 +78,7 @@ jobs:
       CABINET_SEED_PASSWORD: content-sync-ci
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup Node
       uses: actions/setup-node@v7
@@ -159,7 +159,7 @@ jobs:
       SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2

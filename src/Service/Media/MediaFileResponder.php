@@ -74,7 +74,7 @@ final class MediaFileResponder
         $stem = pathinfo((string) $media->name, \PATHINFO_FILENAME);
         $extension = pathinfo((string) $media->name, \PATHINFO_EXTENSION);
 
-        return sprintf('public/%s/%s-%s.%s', $this->relativePath($media), $stem, $rendition, $extension);
+        return sprintf('%s/%s-%s.%s', $this->relativePath($media), $stem, $rendition, $extension);
     }
 
     private function relativePath(Media $media): string

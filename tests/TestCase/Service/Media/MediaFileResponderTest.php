@@ -98,7 +98,7 @@ final class MediaFileResponderTest extends TestCase
     public function testPublicRenditionPathBuildsRelativeUrl(): void
     {
         $this->assertSame(
-            'public/2026/01/uuid-1/photo-large.png',
+            '2026/01/uuid-1/photo-large.png',
             new MediaFileResponder()->publicRenditionPath($this->media(), 'large'),
         );
     }

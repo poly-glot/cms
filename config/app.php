@@ -16,7 +16,10 @@ $mysqlConnection = [
     'persistent' => false,
     'timezone' => 'UTC',
     'encoding' => 'utf8mb4',
-    'flags' => env('DB_SSL') ? [PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt'] : [],
+    'flags' => env('DB_SSL') ? [
+        PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt',
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    ] : [],
     'cacheMetadata' => true,
     'log' => false,
     'quoteIdentifiers' => false,

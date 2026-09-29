@@ -21,3 +21,5 @@ Dockerfile
 .dockerignore
 .env
 .env.*
+config/app_local.php
+config/.env

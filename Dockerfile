@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1-php8.4-bookworm
+FROM dunglas/frankenphp:1-php8.4.27-bookworm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV DEBIAN_FRONTEND=noninteractive
